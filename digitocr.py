@@ -1,7 +1,7 @@
 import sys
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QResizeEvent
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 class TestDialog(QMainWindow):
@@ -14,9 +14,7 @@ class TestDialog(QMainWindow):
         # on startup, resize
         self.resizeEvent(None)
 
-    def resizeEvent(self, event:QResizeEvent):
-        print("resize")
-
+    def resizeEvent(self, event):
         area_size = self.area.size()
         dh = area_size.width()-area_size.height()
 
@@ -36,8 +34,8 @@ class TestDialog(QMainWindow):
         self.label = QLabel("Draw a digit:")
         layout.addWidget(self.__make_bar(self.label))
 
-        self.area = QTextEdit()
-        layout.addWidget(self.area)
+        self.area = DrawArea(core)
+        layout.addWidget(self.area,100)
 
         self.btn_clear = QPushButton("Clear")
         self.btn_run = QPushButton("Run")
@@ -57,6 +55,24 @@ class TestDialog(QMainWindow):
         bar.layout.setContentsMargins(2, 0, 2, 3)
         bar.setLayout(bar.layout)
         return bar
+
+class DrawArea(QWidget):
+    def __init__(self, parent):
+        super().__init__()
+        self.parent = parent
+        # self.setMinimumWidth(320)
+        self.resize(200,200)
+
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+        # self
+
+    def paintEvent(self, event:QPaintEvent):
+        painter = QPainter(self)
+        painter.begin(self)
+        painter.fillRect(0,0,1000,1000,QColor(10,10,10))
+        painter.end()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
