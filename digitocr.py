@@ -18,10 +18,31 @@ class TestDialog(QMainWindow):
         # core.setLayout(layout)
         # self.setCentralWidget(core)
 
-        self.setCentralWidget(QTextEdit())
-        self.addDockWidget(Qt.TopDockWidgetArea,self.__make_bar(
-            QLabel("wow")
-        ))
+        # self.setCentralWidget(QTextEdit())
+        # self.addDockWidget(Qt.TopDockWidgetArea,self.__make_bar(
+        #     QLabel("wow")
+        # ))
+        core = QWidget()
+        layout = QVBoxLayout()
+
+        bar = QWidget()
+        bar.layout = QHBoxLayout()
+        # but = QPushButton("wow")
+        # but.setContentsMargins(0,0,0,0)
+        bar.layout.addWidget(QPushButton("wow"))
+        bar.layout.addWidget(QPushButton("ROO"))
+        bar.layout.setContentsMargins(0,0,0,0)
+        bar.setLayout(bar.layout)
+        # bar.setFixedHeight(bar.layout.sizeHint().height())
+        # bar.layout.setContentsMargins(0,0,0,0)
+        # bar.setContentsMargins(0,0,0,0)
+        # bar.layout.setSpacing(0) # between buttons
+
+        layout.addWidget(bar)
+        layout.addWidget(QTextEdit())
+
+        core.setLayout(layout)
+        self.setCentralWidget(core)
 
     def __make_bar(self, *widgets):
         bar = QWidget()
