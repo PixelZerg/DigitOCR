@@ -60,18 +60,25 @@ class DrawArea(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
-        # self.setMinimumWidth(320)
-        self.resize(200,200)
 
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
-        # self
+        self.pixmap = QPixmap(28,28)
+        self.pixmap.fill((QColor('white')))
 
     def paintEvent(self, event:QPaintEvent):
         painter = QPainter(self)
-        painter.begin(self)
-        painter.fillRect(0,0,1000,1000,QColor(10,10,10))
-        painter.end()
+        painter.drawPixmap(self.rect(),self.pixmap)
+
+    def mouseMoveEvent(self, event:QMouseEvent):
+        print(event.x())
+        painter = QPainter(self.pixmap)
+
+        pos = event.pos()
+        painter.drawPoint(int(float(pos.x())/self.size().width()*self.pixmap.width()),
+                          int(float(pos.y()) / self.size().height() * self.pixmap.height()))
+        # painter.drawPoint(self.mapFromGlobal(QCursor.pos()))
+        # painter.drawRect(event.x(),event.y(),5,5)
+        # painter.save()
+        self.update()
 
 
 if __name__ == '__main__':
