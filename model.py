@@ -33,6 +33,7 @@ model.compile(loss='categorical_crossentropy',
 model.fit(x_train, y_train, epochs=5, validation_split=0.1)
 
 # test
-loss = model.evaluate(x_test,y_test)
-print(f"Test loss: {loss:.3}")
+# loss = model.evaluate(x_test,y_test)
+# print(f"Test loss: {loss:.3}")
+# print(model.predict(np.array([x_test[0]])))
 # print(f"Test accuracy: {accuracy:.3%}")

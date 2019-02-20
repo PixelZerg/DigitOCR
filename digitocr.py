@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+import model
+
 class TestDialog(QMainWindow):
     def __init__(self):
         super().__init__(flags=Qt.WindowStaysOnTopHint)
@@ -40,6 +42,9 @@ class TestDialog(QMainWindow):
         self.btn_clear = QPushButton("Clear")
         self.btn_run = QPushButton("Run")
 
+        self.btn_clear.clicked.connect(self.btn_clear_clicked)
+        self.btn_run.clicked.connect(self.btn_run_clicked)
+
         layout.addWidget(self.__make_bar(self.btn_clear, self.btn_run))
 
         core.setLayout(layout)
@@ -55,6 +60,25 @@ class TestDialog(QMainWindow):
         bar.layout.setContentsMargins(2, 0, 2, 3)
         bar.setLayout(bar.layout)
         return bar
+
+    def btn_clear_clicked(self):
+        self.area.pixmap = QPixmap(28, 28)
+        self.area.pixmap.fill((QColor('white')))
+        self.area.update()
+
+    def btn_run_clicked(self):
+        size = self.area.pixmap.size()
+        img = self.area.pixmap.toImage()
+
+        inp=[]
+
+        for x in range(0, size.width()):
+            for y in range(0, size.height()):
+                c = img.pixel(x, y)
+                pix = QColor(c).getRgbF()[0]
+                inp.append(pix)
+
+        print(model.model.predict(model.np.array([inp])))
 
 class DrawArea(QWidget):
     def __init__(self, parent):
