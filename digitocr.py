@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
@@ -69,12 +69,22 @@ class DrawArea(QWidget):
         painter.drawPixmap(self.rect(),self.pixmap)
 
     def mouseMoveEvent(self, event:QMouseEvent):
-        print(event.x())
         painter = QPainter(self.pixmap)
 
+        # painter.setBrush(QBrush(p))
+        # painter.setBrush(QBrush(Qt.TexturePattern))
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        painter.setRenderHint(QPainter.SmoothPixmapTransform, True)
+        painter.setRenderHint(QPainter.HighQualityAntialiasing, True)
+
         pos = event.pos()
-        painter.drawPoint(int(float(pos.x())/self.size().width()*self.pixmap.width()),
-                          int(float(pos.y()) / self.size().height() * self.pixmap.height()))
+        # painter.drawPoint(int(float(pos.x())/self.size().width()*self.pixmap.width()),
+        #                   int(float(pos.y()) / self.size().height() * self.pixmap.height()))
+
+        map_pos = QPoint(int(float(pos.x()) / self.size().width() * self.pixmap.width()),
+                         int(float(pos.y()) / self.size().height() * self.pixmap.height()))
+        painter.fillRect(map_pos.x(),map_pos.y(),2,2,QColor("black"))
+
         # painter.drawPoint(self.mapFromGlobal(QCursor.pos()))
         # painter.drawRect(event.x(),event.y(),5,5)
         # painter.save()
